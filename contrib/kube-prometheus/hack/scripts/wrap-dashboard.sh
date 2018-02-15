@@ -33,7 +33,7 @@ cat <<EOF
   "dashboard":
 EOF
 
-cat $dashboardjson
+python3 hack/scripts/make_valid_grafana_api_json.py $dashboardjson
 
 cat <<EOF
 ,

@@ -6,7 +6,7 @@ cat <<-EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-dashboard-definitions-0
+  name: grafana-dashboards-0
 data:
 EOF
 
@@ -36,4 +36,13 @@ do
   else
     hack/scripts/wrap-dashboard.sh $f prometheus | sed "s/^/    /g"
   fi
+done
+
+#path to datasource files
+DATASRC_DIR="assets/grafana/json-datasources"
+for f in $DATASRC_DIR/*-datasource.json
+do
+  cp $f assets/grafana/generated/
+  echo "  $(basename $f): |+"
+  python3 hack/scripts/make_valid_grafana_api_json.py $f | sed "s/^/    /g"
 done
